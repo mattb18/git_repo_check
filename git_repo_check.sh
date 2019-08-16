@@ -29,3 +29,12 @@ for i in $(ls -d $GIT_DIR/*/ | grep -Eo '[^/]+/?$' | cut -d / -f1); do
         unpushed_repos+=($i)
     fi
 done
+
+if [[ $VALID_GIT_REPO == 0 ]]; then
+    echo "Error: No valid git repositories found in $GIT_DIR"
+    exit
+fi
+
+if [[ ${#unpushed_repos[@]} > 0 ]]; then
+    osascript -e "display notification \"${unpushed_repos[@]}\" with title \"Git Repositories Not Pushed\""
+fi
